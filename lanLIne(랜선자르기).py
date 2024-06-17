@@ -15,7 +15,7 @@ while start <= end:
 
     for line in lines:
         if line >= mid:
-            sum += round(line // mid)
+            sum += line // mid
 
     if sum < n:
         end = mid - 1
