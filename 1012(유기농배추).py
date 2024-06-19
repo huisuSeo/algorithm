@@ -1,62 +1,44 @@
 import sys
-
+sys.setrecursionlimit(1000000)
 input = sys.stdin.readline
 
-T = int(input())
+def dfs(x, y):
+    dx = [0, 0, 1, -1]
+    dy = [1, -1, 0, 0]
 
-M = []
-N = []
-K = []
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        if (0 <= nx < N) and (0 <= ny < M):
+            if graph[nx][ny] == 1:
+                graph[nx][ny] = -1
+                dfs(nx, ny)
 
-graph = []
 result = []
-count = 0
-
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
-
-
-
+T = int(input())
 for _ in range(T):
-    TM, TN, TK = input().split()
-    TM = int(TM)
-    TN = int(TN)
-    TK = int(TK)
+    M, N, K = map(int, input().split())
+    graph = [[0] * M for _ in range(N)]
+    cnt = 0
 
-    M.append(TM)
-    N.append(TN)
-    K.append(TK)
+    for _ in range(K):
+        m, n = map(int, input().split())
+        graph[n][m] = 1
 
-    for _ in range(TK):
-        graph.append(list(map(int, input().rstrip().split())))
+    for i in range(N):
+        for j in range(M):
+            if graph[i][j] > 0:
+                dfs(i, j)
+                cnt += 1
+    result.append(cnt)
 
-
-
-
-def dfs(x, y, m, n, l):
-    global count
-
-    if x < 0 or x >= m or y < 0 or y >= n:
-        return
-
-    if graph[l] == [x,y]:
-        count += 1
-        graph[l] = 0
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            dfs(nx, ny, m, n, l)
+for i in result:
+    print(i)
 
 
-for i in (T):
-    for j in range(M[i]):
-        for k in range(N[i]):
-            for l in range(K[i]):
-                if graph[l] == [j,k]:
-                    dfs(j, k, M[i], N[i], l)
-                    result.append(count)
-                    count = 0
 
-print(*result)
+
+
+
 
 
