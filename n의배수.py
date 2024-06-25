@@ -1,4 +1,4 @@
-def solution(num, n):  # solve
+def solution(num, n):  # sol
     if num % n == 0:
         answer = 1
     else:
